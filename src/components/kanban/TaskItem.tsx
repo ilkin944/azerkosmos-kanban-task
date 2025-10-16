@@ -12,9 +12,17 @@ import EditTask from "./EditTask";
 import DeleteTask from "./DeleteTask";
 
 export default function TaskItem({ item }: { item: CardItem }) {
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData("taskId", item.id.toString());
+  };
+
   return (
     <>
-      <Card className="mb-4">
+      <Card 
+        className="mb-4 cursor-move hover:shadow-lg transition-shadow" 
+        draggable 
+        onDragStart={handleDragStart}
+      >
         <CardHeader>
           <CardTitle>{item.name}</CardTitle>
           <CardAction>

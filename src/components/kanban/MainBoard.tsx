@@ -11,10 +11,23 @@ import AddTask from "./AddTask";
 import DoneTasks from "./DoneTasks";
 import InProgressTasks from "./InProgressTasks";
 import TodoTasks from "./TodoTasks";
+import { useTasks } from "@/store/tasks";
+import type { CardItem } from "@/types";
 
 export default function MainBoard() {
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("default");
+  const moveTask = useTasks((state: any) => state.moveTask);
+
+  const handleDrop = (e: React.DragEvent, newType: "todo" | "in-progress" | "done") => {
+    e.preventDefault();
+    const taskId = parseInt(e.dataTransfer.getData("taskId"));
+    moveTask(taskId, newType);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
   return (
     <>
       <Card>
@@ -54,9 +67,15 @@ export default function MainBoard() {
         </CardDescription>
         <CardContent>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <TodoTasks priorityFilter={priorityFilter} sortBy={sortBy} />
-            <InProgressTasks priorityFilter={priorityFilter} sortBy={sortBy} />
-            <DoneTasks priorityFilter={priorityFilter} sortBy={sortBy} />
+            <div onDrop={(e) => handleDrop(e, "todo")} onDragOver={handleDragOver}>
+              <TodoTasks priorityFilter={priorityFilter} sortBy={sortBy} />
+            </div>
+            <div onDrop={(e) => handleDrop(e, "in-progress")} onDragOver={handleDragOver}>
+              <InProgressTasks priorityFilter={priorityFilter} sortBy={sortBy} />
+            </div>
+            <div onDrop={(e) => handleDrop(e, "done")} onDragOver={handleDragOver}>
+              <DoneTasks priorityFilter={priorityFilter} sortBy={sortBy} />
+            </div>
           </div>
         </CardContent>
       </Card>

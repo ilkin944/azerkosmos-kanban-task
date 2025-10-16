@@ -11,5 +11,8 @@ export const useTasks = create((set) => ({
     deleteTask: (id: number) => set((state: { tasks: CardItem[]}) => ({
         tasks: state.tasks.filter(item => item.id !== id)
     })),
+    moveTask: (id: number, newType: "todo" | "in-progress" | "done") => set((state: { tasks: CardItem[] }) => ({
+        tasks: state.tasks.map(item => item.id === id ? { ...item, type: newType } : item)
+    })),
 }))
 

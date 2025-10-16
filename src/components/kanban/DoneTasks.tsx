@@ -21,11 +21,11 @@ export default function DoneTasks({ priorityFilter, sortBy }: DoneTasksProps) {
     });
 
   return (
-    <Card>
+    <Card className="min-h-[200px]">
       <CardHeader>
         <CardTitle>Done Tasks</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="min-h-[150px]">
         {filteredAndSortedTasks.map((ele: CardItem) => (
           <TaskItem key={ele.id} item={ele} />
         ))}

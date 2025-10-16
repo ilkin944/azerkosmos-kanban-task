@@ -21,11 +21,11 @@ export default function TodoTasks({ priorityFilter, sortBy }: TodoTasksProps) {
     });
 
   return (
-    <Card className="border border-dashed bg-slate-50">
+    <Card className="border border-dashed bg-slate-50 min-h-[200px]">
       <CardHeader>
         <CardTitle>Todo</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="min-h-[150px]">
         {filteredAndSortedTasks.map((ele:CardItem) => (
           <TaskItem key={ele.id} item={ele} />
         ))}
