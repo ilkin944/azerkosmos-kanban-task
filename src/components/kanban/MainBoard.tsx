@@ -12,7 +12,6 @@ import DoneTasks from "./DoneTasks";
 import InProgressTasks from "./InProgressTasks";
 import TodoTasks from "./TodoTasks";
 import { useTasks } from "@/store/tasks";
-import type { CardItem } from "@/types";
 
 export default function MainBoard() {
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
