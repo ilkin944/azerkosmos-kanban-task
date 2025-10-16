@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader } from "../ui/card";
-import { Label } from "../ui/label";
 import {
   Select,
   SelectContent,
@@ -12,10 +11,10 @@ import AddTask from "./AddTask";
 import DoneTasks from "./DoneTasks";
 import InProgressTasks from "./InProgressTasks";
 import TodoTasks from "./TodoTasks";
-import type { CardItem } from "@/types";
-import { tasks } from "@/common/data";
 
 export default function MainBoard() {
+  const [priorityFilter, setPriorityFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("default");
   return (
     <>
       <Card>
@@ -24,13 +23,13 @@ export default function MainBoard() {
           <div className="w-full ">
             <h4>Manage your tasks...</h4>
             <div className="w-full flex items-center justify-between mt-4">
-              {/* <Label htmlFor="email">Your email address</Label> */}
               <div>
-                <Select>
+                <Select value={priorityFilter} onValueChange={setPriorityFilter}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="All Priorities" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="all">All Priorities</SelectItem>
                     <SelectItem value="high">High</SelectItem>
                     <SelectItem value="medium">Medium</SelectItem>
                     <SelectItem value="low">Low</SelectItem>
@@ -38,14 +37,14 @@ export default function MainBoard() {
                 </Select>
               </div>
               <div>
-                <Select>
+                <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="default">Default</SelectItem>
                     <SelectItem value="name">Name</SelectItem>
                     <SelectItem value="created">Created</SelectItem>
-                    <SelectItem value="default">Default</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -55,9 +54,9 @@ export default function MainBoard() {
         </CardDescription>
         <CardContent>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <TodoTasks  />
-            <InProgressTasks  />
-            <DoneTasks  />
+            <TodoTasks priorityFilter={priorityFilter} sortBy={sortBy} />
+            <InProgressTasks priorityFilter={priorityFilter} sortBy={sortBy} />
+            <DoneTasks priorityFilter={priorityFilter} sortBy={sortBy} />
           </div>
         </CardContent>
       </Card>

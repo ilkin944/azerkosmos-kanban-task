@@ -3,19 +3,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import TaskItem from "./TaskItem";
 import { useTasks } from "@/store/tasks";
 
-export default function InProgressTasks() {
+interface InProgressTasksProps {
+  priorityFilter: string;
+  sortBy: string;
+}
+
+export default function InProgressTasks({ priorityFilter, sortBy }: InProgressTasksProps) {
   const tasks = useTasks((state: any) => state.tasks);
+  
+  const filteredAndSortedTasks = tasks
+    .filter((item: CardItem) => item.type === "in-progress")
+    .filter((item: CardItem) => priorityFilter === "all" || item.priority === priorityFilter)
+    .sort((a: CardItem, b: CardItem) => {
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      if (sortBy === "created") return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      return 0;
+    });
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>In Progress Tasks</CardTitle>
       </CardHeader>
       <CardContent>
-        {tasks
-          .filter((item: CardItem) => item.type === "in-progress")
-          .map((ele: CardItem) => (
-            <TaskItem item={ele} />
-          ))}
+        {filteredAndSortedTasks.map((ele: CardItem) => (
+          <TaskItem key={ele.id} item={ele} />
+        ))}
       </CardContent>
     </Card>
   );

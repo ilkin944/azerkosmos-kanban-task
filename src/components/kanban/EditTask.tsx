@@ -64,7 +64,7 @@ export default function EditTask({ item }: { item: CardItem }) {
           </select>
           <Button
             onClick={() => {
-              editNewTask({ id: item.id, data: item });
+              editNewTask({ id: item.id, data: newTaskItem });
               setShowModal(false);
             }}
           >

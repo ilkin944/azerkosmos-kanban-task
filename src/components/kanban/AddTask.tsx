@@ -16,6 +16,17 @@ export default function AddTask() {
     createdAt: new Date(),
   });
   const [showModal, setShowModal] = useState(false);
+  
+  const resetForm = () => {
+    setNewTaskItem({
+      id: new Date().getTime(),
+      name: "",
+      description: "",
+      priority: "low",
+      type: "todo",
+      createdAt: new Date(),
+    });
+  };
   return (
     <>
       <Dialog open={showModal} onOpenChange={setShowModal}>
@@ -24,7 +35,7 @@ export default function AddTask() {
             <Plus /> Add Task
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent onCloseAutoFocus={resetForm}>
           <input
             value={newTaskItem.name}
             placeholder="Task Name"
@@ -69,6 +80,7 @@ export default function AddTask() {
             onClick={() => {
               addNewTask(newTaskItem);
               setShowModal(false);
+              resetForm();
             }}
           >
             Add

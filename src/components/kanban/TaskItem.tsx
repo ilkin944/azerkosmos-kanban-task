@@ -1,4 +1,3 @@
-import { Pen, Trash } from "lucide-react";
 import {
   Card,
   CardAction,
